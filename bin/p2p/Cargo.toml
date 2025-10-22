@@ -1,0 +1,18 @@
+[package]
+name = "p2p"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.100"
+clap = { version = "4.5", features = ["derive"] }
+futures = "0.3.31"
+libp2p = { version = "0.56", features = ["tokio", "tcp", "floodsub"] }
+libp2p-noise = "0.46.1"
+libp2p-tls = "0.6.2"
+libp2p-yamux = "0.47.0"
+tokio = { version = "1.48", features = ["full"] }
+tokio-stream = "0.1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
