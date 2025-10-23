@@ -39,8 +39,8 @@ fn load_or_create_identity(identity_path: &Path) -> Result<identity::Keypair> {
         let key_bytes = std::fs::read(identity_path).context("Failed to read identity file")?;
         let key_data = String::from_utf8(key_bytes).context("Identity file is not valid UTF-8")?;
         let decoded = hex::decode(&key_data).context("Failed to decode identity from hex")?;
-        identity::Keypair::ed25519_from_bytes(decoded)
-            .context("Failed to parse identity keypair from bytes")
+        identity::Keypair::from_protobuf_encoding(&decoded)
+            .context("Failed to parse identity keypair from protobuf")
     } else {
         // Create new keypair
         let keypair = identity::Keypair::generate_ed25519();
