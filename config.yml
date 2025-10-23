@@ -1,0 +1,13 @@
+# libp2p P2P Node Configuration
+# This file demonstrates the configuration options available
+
+# Bootstrap peers to connect to
+# If not specified, defaults to the libp2p bootstrap nodes
+bootstrap_peers:
+  - "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN"
+  - "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa"
+  - "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb"
+
+# Topic to subscribe to
+# If not specified, defaults to "example-topic"
+topic: "example-topic"
