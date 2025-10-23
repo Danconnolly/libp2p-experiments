@@ -73,16 +73,23 @@ async fn main() -> Result<()> {
             libp2p_yamux::Config::default,
         )
         .unwrap()
+        .with_quic()
         .with_dns()
         .unwrap()
         .with_behaviour(|_| kademlia)?
         .build();
 
-    // Listen on configured port
-    let listen_addr = format!("/ip4/0.0.0.0/tcp/{}", cli.port);
-    Swarm::listen_on(&mut swarm, listen_addr.parse().unwrap())
-        .context("Failed to listen on configured port")?;
-    tracing::info!("Listening on port {}", cli.port);
+    // Listen on TCP port
+    let tcp_listen_addr = format!("/ip4/0.0.0.0/tcp/{}", cli.port);
+    Swarm::listen_on(&mut swarm, tcp_listen_addr.parse().unwrap())
+        .context("Failed to listen on TCP port")?;
+    tracing::info!("Listening on TCP port {}", cli.port);
+
+    // Listen on QUIC port (UDP, port + 1 for distinction)
+    let quic_listen_addr = format!("/ip4/0.0.0.0/udp/{}/quic-v1", cli.port + 1);
+    Swarm::listen_on(&mut swarm, quic_listen_addr.parse().unwrap())
+        .context("Failed to listen on QUIC port")?;
+    tracing::info!("Listening on QUIC port {}", cli.port + 1);
 
     // Connect to bootstrap peers and add them to DHT
     for peer in &cfg.bootstrap_peers {
