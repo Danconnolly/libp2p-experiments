@@ -111,10 +111,10 @@ async fn main() -> Result<()> {
     while let Some(event) = swarm.next().await {
         match event {
             libp2p::swarm::SwarmEvent::Behaviour(kad::Event::RoutingUpdated { peer, .. }) => {
-                tracing::debug!("Routing updated for peer: {}", peer);
+                println!("DHT: Routing updated for peer: {}", peer);
             }
             libp2p::swarm::SwarmEvent::Behaviour(kad::Event::InboundRequest { request }) => {
-                tracing::debug!("Inbound DHT request: {:?}", request);
+                println!("DHT: Inbound request: {:?}", request);
             }
             libp2p::swarm::SwarmEvent::IncomingConnection {
                 local_addr,
@@ -135,10 +135,10 @@ async fn main() -> Result<()> {
                 println!("Connection closed with {}", peer_id);
             }
             libp2p::swarm::SwarmEvent::Behaviour(event) => {
-                tracing::debug!("DHT event: {:?}", event);
+                println!("DHT event: {:?}", event);
             }
             _ => {
-                tracing::debug!("Swarm event: {:?}", event);
+                println!("Swarm event: {:?}", event);
             }
         }
     }
