@@ -19,6 +19,10 @@ struct Cli {
     /// Path to config file (YAML format)
     #[arg(short, long, default_value = "config.yml")]
     config: PathBuf,
+
+    /// Listening port
+    #[arg(short, long, default_value = "30333")]
+    port: u16,
 }
 
 #[tokio::main]
@@ -72,8 +76,10 @@ async fn main() -> Result<()> {
         .with_behaviour(|_| floodsub)?
         .build();
 
-    // Listen on a random local port
-    Swarm::listen_on(&mut swarm, "/ip4/0.0.0.0/tcp/0".parse().unwrap()).unwrap();
+    // Listen on configured port
+    let listen_addr = format!("/ip4/0.0.0.0/tcp/{}", cli.port);
+    Swarm::listen_on(&mut swarm, listen_addr.parse().unwrap())
+        .context("Failed to listen on configured port")?;
 
     // Connect to bootstrap peers
     for peer in &cfg.bootstrap_peers {
